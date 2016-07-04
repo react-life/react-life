@@ -1,0 +1,39 @@
+@blueColor: #0f93cc;
+
+.settings {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+
+  &__button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    .material-icons {
+      color: #333;
+    }
+
+    &_active {
+      .material-icons {
+        color: @blueColor;
+      }
+    }
+  }
+
+  &__menu {
+    position: fixed;
+    left: 5px;
+    bottom: 50px;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+}
+
+.settings-label {
+  position: absolute;
+  left: 50px;
+  bottom: 30px;
+}

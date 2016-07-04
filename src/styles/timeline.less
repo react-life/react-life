@@ -1,0 +1,366 @@
+@hourLine: #fff;
+@hourLineSmall: rgba(255, 255, 255, .6);
+@hourLabel: #fff;
+
+@dayLine: #fff;
+@dayLabel: #fff;
+
+@blueColor: #0f93cc;
+
+@timelineTop: 0;
+@timelineHeight: 70px;
+
+.lines(@color: #000, @dir: to right) {
+	background-image: linear-gradient(@dir, @color 0, @color 1px, transparent 1px, transparent);
+}
+
+.timeline {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	bottom: 0;
+	font-family: 'Consolas';
+
+	&__line {
+		user-select: none;
+		cursor: grab;
+		position: absolute;
+		top: @timelineTop;
+		width: 100%;
+		height: @timelineHeight;
+		background: #0f93cc;
+		box-shadow: 0 0 3px #0f93cc,
+								inset 0 0 3px rgba(255,255,255,.3);
+
+		&:active {
+			cursor: grabbing;
+		}
+
+		&:after {
+			position: absolute;
+			right: 0;
+			left: 0;
+			top: @timelineHeight;
+			height: 1px;
+			background: #999;
+			border-bottom: 1px solid #fff;
+			// content: '';
+			z-index: 2;
+		}
+	}
+
+	&__intro {
+		z-index: 20;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,.5);
+		color: #fff;
+
+		&-dnd {
+			font-size: 20px;
+			position: absolute;
+			top: 100px;
+			left: 80px;
+		}
+
+		&-scale {
+			font-size: 20px;
+			position: absolute;
+			top: 300px;
+			left: 500px;
+		}
+
+		&-arrow {
+			font-size: 40px;
+			position: absolute;
+			top: 60px;
+			left: 100px;
+			transform: rotate(70deg);
+		}
+	}
+
+	&__timer {
+		position: absolute;
+		top: @timelineHeight;
+		left: 0;
+		right: 0;
+		z-index: 3;
+	}
+
+	&__past {
+		position: fixed;
+		left: 0;
+		top: @timelineTop;
+		height: @timelineHeight;
+		z-index: 3;
+		background: rgba(0, 0, 0, 0.4);
+	}
+}
+
+.timeline-days {
+	position: absolute;
+	right: 0;
+	left: 0;
+	top: 0;
+	height: 40px;
+	.lines(@dayLine);
+
+	&__day {
+		position: absolute;
+		top: 0;
+		height: 100%;
+		padding-left: 5px;
+		line-height: 12px;
+
+		&_first-in-week {
+			&:after {
+				position: absolute;
+				left: -1px;
+				top: 0;
+				width: 3px;
+				height: 65px;
+				background: #fff;
+			}
+		}
+
+		&_date {
+			white-space: nowrap;
+			padding-top: 3px;
+			font-size: 13px;
+			color: @dayLabel;
+		}
+
+		&_weekday {
+			display: block;
+			font-size: 11px;
+		}
+	}
+
+	&__hover-time {
+		display: none;
+		z-index: 5;
+		position: fixed;
+		top: 44px;
+		line-height: 16px;
+		padding: 0 3px 3px;
+		font-size: 12px;
+		color: @blueColor;
+		background: #fff;
+		text-align: center;
+	}
+}
+
+.timeline-hours {
+	position: absolute;
+	top: 40px;
+	left: 0;
+	right: 0;
+	height: 30px;
+	.lines(@hourLine);
+
+	&_line_small {
+		.lines(@hourLineSmall);
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		height: 50%;
+	}
+
+	&__hour {
+		padding-left: 5px;
+		position: absolute;
+		top: -2px;
+		font-size: 13px;
+		color: @hourLabel;
+	}
+}
+
+.timeline-timer {
+	padding-top: 30px;
+	position: absolute;
+	top: 0;
+	font-size: 18px;
+	z-index: 2;
+	left: 50%;
+	padding-left: 5px;
+	color: #09587A;
+	border-left: 1px solid #09587A;
+
+	&_active {
+		color: @blueColor;
+		border-color: @blueColor;
+	}
+
+	&__controls {
+		left: -4px;
+		position: absolute;
+		width: 30px;
+		top: 5px;
+		text-align: right;
+	}
+
+	&__button {
+		font-size: 13px;
+		white-space: nowrap;
+		border: none;
+		background: none;
+		cursor: pointer;
+		color: #09587A;
+
+		&_active {
+			color: @blueColor;
+		}
+		.material-icons {
+			position: relative;
+			top: 3px;
+			font-size: 15px;
+			margin-right: 5px;
+		}
+	}
+
+	&__since {
+		font-size: .8em;
+		color: #000;
+	}
+}
+
+.timeline-periods {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+
+	&__item {
+		height: 15px;
+		background: @blueColor;
+		position: absolute;
+		cursor: pointer;
+		top: @timelineHeight;
+		transition: linear .2s height;
+
+		&:before {
+			position: absolute;
+			left: 0; top: 0;
+			width: 100%;
+			height: 5px;
+			background: linear-gradient(to bottom, rgba(0,0,0,.6), rgba(0,0,0,0));
+			content: '';
+		}
+
+		&:hover,
+		&_active {
+			height: 30px;
+		}
+	}
+}
+
+.timeline-task {
+	position: absolute;;
+	right: 0;
+	top: 30px;
+	border: 1px solid @blueColor;
+	font-size: .9em;
+	padding: 5px 5px 0;
+
+	&_hidden {
+		display: none;
+	}
+
+	&__controls {
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		white-space: nowrap;
+	}
+
+	&__button {
+		cursor: pointer;
+		background: none;
+		padding: 0;
+		border: 0;
+		width: 16px;
+		height: 16px;
+		margin: 0 2px;
+
+		.material-icons {
+			font-size: 16px;
+		}
+
+		&_continue {
+			color: @blueColor;
+		}
+
+		&_close {
+			color: red;
+		}
+	}
+
+	&__duration {
+		font-size: 18px;
+		margin-right: 8px;
+		color: @blueColor;
+	}
+
+	&__since {
+		color: #999;
+		font-size: 13px;
+	}
+}
+
+.timeline-task-fields {
+	&__desc {
+		margin-top: 10px;
+	}
+
+	&__field {
+		margin-bottom: 10px;
+	}
+
+	&__field-label {
+		font-size: 12px;
+		color: #000;
+	}
+
+	&__select,
+	&__input {
+		display: block;
+		height: 30px;
+		padding: 0 5px;
+		border-radius: 3px;
+		width: 250px;
+		border: 1px solid #ccc;
+		font-size: 12px;
+		box-sizing: border-box;
+	}
+
+	&__label {
+		font-size: 12px;
+		color: #000;
+	}
+
+	&__checkbox {
+		margin-right: 5px;
+		position: relative;
+		top: 2px;
+	}
+}
+
+.timeline-year {
+	display: block;
+	width: 100%;
+	height: 30px;
+	background: #000;
+	font-size: 0;
+
+	&__month {
+		height: 100%;
+		display: inline-block;
+		border-left: 1px solid #fff;
+		box-sizing: border-box;
+	}
+}
